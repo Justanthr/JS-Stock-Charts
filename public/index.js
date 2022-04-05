@@ -4,6 +4,15 @@ async function main() {
     const highestPriceChartCanvas = document.querySelector('#highest-price-chart');
     const averagePriceChartCanvas = document.querySelector('#average-price-chart');
 
+    const response = await fetch(`https://api.twelvedata.com/time_series?symbol=GME,MSFT,DIS,BNTX&interval=1day&apikey=b2b0e11651294ee9a789558a1625b754`, {
+        headers: {'Content-type': 'application.json'}
+        })
+    const result = await response.json()
+
+    const { GME, MSFT, DIS, BNTX } = result
+    const stocks = [GME, MSFT, DIS, BNTX]
+
+    console.log(result, stocks)
 }
 
 main()
