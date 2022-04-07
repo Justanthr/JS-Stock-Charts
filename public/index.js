@@ -25,7 +25,31 @@ async function main() {
                 borderColor: getColor(stock.meta.symbol),
             }))
         }
-    });
+    })
+
+    new Chart(highestPriceChartCanvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: stocks.map(stock => stock.meta.symbol),
+            datasets: [{
+                label: 'highest',
+                backgroundColor: stocks.map(stock => (getColor(stock.meta.symbol))),
+                borderColor: stocks.map(stock => (getColor(stock.meta.symbol))),
+                data: stocks.map(stock => (findHighest(stock.values)))
+            }]
+        }
+    })
+
+    function findHighest(values) {
+        let highest = 0;
+        values.forEach(value => {
+            if (parseFloat(value.high) > highest) {
+                highest = value.high
+            }
+        })
+        return highest
+    }
+
     function getColor(stock){
         if(stock === "GME"){
             return 'rgba(61, 161, 61, 0.7)'
@@ -39,6 +63,7 @@ async function main() {
         if(stock === "BNTX"){
             return 'rgba(166, 43, 158, 0.7)'
         }
-    }          
+    }       
 }
+
 main()
